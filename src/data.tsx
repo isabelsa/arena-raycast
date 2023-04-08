@@ -12,7 +12,7 @@ type Block = {
   }
 }
 
-export default function getChannelContents(arena: any, channel: any, set: any){
+export function getChannelContents(arena: any, channel: any, set: any){
   arena
   .channel(channel)
   .contents()
@@ -30,4 +30,19 @@ export default function getChannelContents(arena: any, channel: any, set: any){
   })
   })
   .catch((err : any) => console.log(err));
+}
+
+export function getBlockContents(arena: any){
+  arena 
+  .block(8693)
+  .get()
+  .then((block:Block) => console.log(block.title))
+  .catch(console.error);
+}
+
+export function getUserChannels(arena: any){
+  arena
+  .user(23484)
+  .channels()
+  .then((user: any) => console.log(user.full_name));
 }

@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
-import { ActionPanel, Action, Grid } from "@raycast/api";
-import getChannelContents from "./data";
+import { ActionPanel, Action, Grid, Detail } from "@raycast/api";
+import { getChannelContents } from "./data";
 
 const Arena = require("are.na");
 const arena = new Arena();
+
+const createBlockMarkdown = (title: any, image: any) => {
+  return `![Illustration](${image})`;
+};
 
 
 export default function Command() {
@@ -30,21 +34,29 @@ export default function Command() {
           subtitle={name}
           actions={
             <ActionPanel>
+               <Action.Push 
+                title="View Detail"
+                target={
+                  <Detail
+                  markdown={createBlockMarkdown(title, image)}
+                  metadata={
+                    <Detail.Metadata>
+                      <Detail.Metadata.Link title="Author" target={name} text={name} />
+                      <Detail.Metadata.Separator />
+                      <Detail.Metadata.TagList title="Statistics">
+                        <Detail.Metadata.TagList.Item text={`❤️ ${name}`} color={name} />
+                        <Detail.Metadata.TagList.Item text={`👁 ${name}`} color={name} />
+                      </Detail.Metadata.TagList>
+                    </Detail.Metadata>
+                  } 
+                />}
+                >
+                </Action.Push>
               <Action.CopyToClipboard content={image} />
-              <Action.Push 
-                title="More Info"
-                icon={{
-                  source: "info.svg",
-                  tintColor: {
-                    light: "#000",
-                    dark: "#FFF",
-                  }
-                }}
-                target={null}></Action.Push>
-                <Action.OpenInBrowser title="Open in Browser" url={image}/>
+              <Action.OpenInBrowser title="Open in Browser" url={image}/>
             </ActionPanel>
           }
-        />
+        />  
         )}
     </Grid>
   );
