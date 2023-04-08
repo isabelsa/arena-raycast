@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { ActionPanel, Action, Icon, Grid, Color } from "@raycast/api";
-import fetch from "node-fetch";
+import { ActionPanel, Action, Grid } from "@raycast/api";
+import getChannelContents from "./data";
 
 const Arena = require("are.na");
 const arena = new Arena();
@@ -11,17 +11,7 @@ export default function Command() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    arena
-    .channel("arena-influences")
-    .contents({ page: 1, per: 3 })
-    .then((contents : any) => {
-      contents.map((content: any) => {
-        // console.log("Test ->", content)
-        const block = {id: content.id, name: content.title, image: content.image.thumb.url}
-        setItems((prev : any) => [...prev, block]);
-      });
-    })
-    .catch((err : any) => console.log(err));
+    getChannelContents(arena, "mood-omega", setItems)
   },[])
 
 
@@ -30,32 +20,28 @@ export default function Command() {
   return (
     <Grid
       columns={3}
-      inset={Grid.Inset.Large}
+      fit={Grid.Fit.Fill}
       isLoading={isLoading}
-      searchBarAccessory={
-        <Grid.Dropdown
-          tooltip="Grid Item Size"
-          storeValue
-          onChange={(newValue) => {
-            setItemSize(newValue as Grid.ItemSize);
-            setIsLoading(false);
-          }}
-        >
-          <Grid.Dropdown.Item title="Large" value={Grid.Inset.Large} />
-          <Grid.Dropdown.Item title="Medium" value={Grid.Inset.Medium} />
-          <Grid.Dropdown.Item title="Small" value={Grid.Inset.Small} />
-        </Grid.Dropdown>
-      }
     >
-      {items.map(({id, name, image}: any) => 
+      {items.map(({id, name, title, image}: any) => 
           <Grid.Item
           key={id}
-          content={{ tooltip: name, value: { source: image } }}
-          title={name}
+          content={{ tooltip: title, value: { source: image } }}
           subtitle={name}
           actions={
             <ActionPanel>
               <Action.CopyToClipboard content={image} />
+              <Action.Push 
+                title="More Info"
+                icon={{
+                  source: "info.svg",
+                  tintColor: {
+                    light: "#000",
+                    dark: "#FFF",
+                  }
+                }}
+                target={null}></Action.Push>
+                <Action.OpenInBrowser title="Open in Browser" url={image}/>
             </ActionPanel>
           }
         />

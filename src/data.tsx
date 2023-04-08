@@ -1,26 +1,33 @@
-import React from "react"
-import fetch from "node-fetch";
+type Block = {
+  id: string
+  name: string
+  title: string
+  source: {
+      title: string
+    }
+  image: {
+    square: {
+      url: string
+    }
+  }
+}
 
-const Arena = require("are.na");
-const arena = new Arena();
-
-
-export default function fetchBlocks(setState){
-
-  const block = {id: {id}, name: content.title, image: content.image.thumb.url}
-
+export default function getChannelContents(arena: any, channel: any, set: any){
   arena
-    .channel("arena-influences")
-    .contents({ page: 1, per: 3 })
-    .then((contents : any) => {
-      contents.map((content: any) => {
-        // console.log("Test ->", content)
-
-        
-        setState((prev : any) => [...prev, block]);
-      });
-    })
-    .catch((err : any) => console.log(err));
-
-  return null
+  .channel(channel)
+  .contents()
+  .then((blocks: Block[]) => {
+    blocks.map((x: Block) => {
+      
+      console.log("Block ->", x)
+      
+      const block = {
+        id: x.id, 
+        name: x.title, 
+        title: x.source.title,
+        image: x.image.square.url}
+      set((prev : any) => [...prev, block]);
+  })
+  })
+  .catch((err : any) => console.log(err));
 }

@@ -1,8 +1,8 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "testing",
-  "title": "Testing",
-  "description": "Testing",
+  "title": "Are.na",
+  "description": "Browse arena using Raycast",
   "icon": "command-icon.png",
   "author": "isabelsa",
   "categories": [
@@ -12,8 +12,8 @@
   "commands": [
     {
       "name": "index",
-      "title": "Show Grid",
-      "description": "Template for showing a static grid",
+      "title": "Browse channel",
+      "description": "Browsing a hardcoded are.na channel",
       "mode": "view"
     }
   ],
