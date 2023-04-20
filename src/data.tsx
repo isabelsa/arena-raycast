@@ -19,7 +19,7 @@ export function getChannelContents(arena: any, channel: any, set: any){
   .then((blocks: Block[]) => {
     blocks.map((x: Block) => {
       
-      console.log("Block ->", x)
+      // console.log("Block ->", x)
       
       const block = {
         id: x.id, 
@@ -32,6 +32,7 @@ export function getChannelContents(arena: any, channel: any, set: any){
   .catch((err : any) => console.log(err));
 }
 
+//TBD
 export function getBlockContents(arena: any){
   arena 
   .block(8693)
@@ -40,9 +41,11 @@ export function getBlockContents(arena: any){
   .catch(console.error);
 }
 
-export function getUserChannels(arena: any){
+
+export function getUserChannels(arena: any, userId: any){
   arena
-  .user(23484)
-  .channels()
-  .then((user: any) => console.log(user.full_name));
+  .user(userId)
+  .channels({ page: 1, per: 3})
+  .then((x) => console.log("AHHHHHHH", x))
+  .catch("EHHHHHHH", console.error);
 }

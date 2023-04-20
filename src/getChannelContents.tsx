@@ -9,8 +9,7 @@ const createBlockMarkdown = (title: any, image: any) => {
   return `![Illustration](${image})`;
 };
 
-
-export default function Command() {
+export default function GetChannelContents() {
   const [items, setItems] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(true);
 
@@ -18,8 +17,6 @@ export default function Command() {
     getChannelContents(arena, "mood-omega", setItems)
   },[])
 
-
-  console.log("State Items ->", items)
   
   return (
     <Grid
