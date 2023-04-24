@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
-import { Action, ActionPanel, Clipboard, Form, Icon, showToast, Toast } from "@raycast/api";
+import { Form, getPreferenceValues } from "@raycast/api";
 import { getUserChannels } from "./data";
 
-const Arena = require("are.na");
-const arena = new Arena();
+
 
 export default function GetUserChannels() {
-  useEffect(() => {
-    getUserChannels(arena, 17)
-  },[])
+
+  const preferences = getPreferenceValues()
+
+  const Arena = require("are.na");
+  let arena = new Arena({ accessToken: preferences.token });
+
+
+  console.log("hello", getPreferenceValues())
+
+  getUserChannels(arena, 17)
 
   console.log("hello")
 

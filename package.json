@@ -21,6 +21,23 @@
       "title": "Get a user's channel list",
       "description": "Browsing a hardcoded are.na channel",
       "mode": "view"
+    },
+    {
+      "name": "uploadScreenshot",
+      "title": "Upload files to are.na",
+      "description": "Testing",
+      "mode": "view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "token",
+      "type": "password",
+      "required": true,
+      "title": "Access Token",
+      "description": "Your Are.na Access Token.",
+      "link": "https://developer.raindrop.io/v1/authentication/token",
+      "placeholder": "Enter your Are.na personal token."
     }
   ],
   "dependencies": {

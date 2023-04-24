@@ -1,7 +1,7 @@
 type Block = {
   id: string
   name: string
-  title: string
+  title?: string
   source: {
       title: string
     }
@@ -12,32 +12,13 @@ type Block = {
   }
 }
 
-export function getChannelContents(arena: any, channel: any, set: any){
-  arena
-  .channel(channel)
-  .contents()
-  .then((blocks: Block[]) => {
-    blocks.map((x: Block) => {
-      
-      // console.log("Block ->", x)
-      
-      const block = {
-        id: x.id, 
-        name: x.title, 
-        title: x.source.title,
-        image: x.image.square.url}
-      set((prev : any) => [...prev, block]);
-  })
-  })
-  .catch((err : any) => console.log(err));
-}
 
 //TBD
 export function getBlockContents(arena: any){
   arena 
   .block(8693)
   .get()
-  .then((block:Block) => console.log(block.title))
+  .then((block: Block) => console.log(block.title))
   .catch(console.error);
 }
 
@@ -45,7 +26,19 @@ export function getBlockContents(arena: any){
 export function getUserChannels(arena: any, userId: any){
   arena
   .user(userId)
-  .channels({ page: 1, per: 3})
-  .then((x) => console.log("AHHHHHHH", x))
+  .channels()
+  .then((channels : any) => {
+    channels.map((x : any) => {
+      
+      const channel = {
+        title: x.title,
+        user: x.user.full_name,
+        status: x.status,
+        updated: x.updated_at
+      } 
+
+      console.log(channel)
+    })
+  })
   .catch("EHHHHHHH", console.error);
 }
