@@ -15,18 +15,6 @@
       "title": "Browse channel",
       "description": "Browsing a hardcoded are.na channel",
       "mode": "view"
-    }, 
-    {
-      "name": "getUserChannels",
-      "title": "Get a user's channel list",
-      "description": "Browsing a hardcoded are.na channel",
-      "mode": "view"
-    },
-    {
-      "name": "uploadScreenshot",
-      "title": "Upload files to are.na",
-      "description": "Testing",
-      "mode": "view"
     }
   ],
   "preferences": [

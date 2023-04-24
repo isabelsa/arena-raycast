@@ -12,17 +12,6 @@ type Block = {
   }
 }
 
-
-//TBD
-export function getBlockContents(arena: any){
-  arena 
-  .block(8693)
-  .get()
-  .then((block: Block) => console.log(block.title))
-  .catch(console.error);
-}
-
-
 export function getUserChannels(arena: any, userId: any){
   arena
   .user(userId)
@@ -37,7 +26,7 @@ export function getUserChannels(arena: any, userId: any){
         updated: x.updated_at
       } 
 
-      console.log(channel)
+      // console.log(channel)
     })
   })
   .catch("EHHHHHHH", console.error);

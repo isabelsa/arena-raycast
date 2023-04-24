@@ -13,12 +13,14 @@ type Block = {
   id: string;
   name: string;
   title: string;
+  generated_title: string;
+  content: string;
   source?: {
     title: string;
   };
   image: {
-    square: {
-      url: string;
+    square?: {
+      url?: string;
     };
   };
 };
@@ -30,13 +32,14 @@ export function getChannelContents(arena: any, channel: any, set: any) {
     .contents()
     .then((blocks: Block[]) => {
       blocks.map((x: Block) => {
-        //console.log("Block ->", x);
+        console.log("Block ->", x);
 
         const block = {
           id: x.id,
-          name: x.title,
-          title: x.source?.title || "hey",
-          image: x.image.square.url
+          name: x.title ,
+          title: x.source?.title || x.content || x.generated_title,
+          image: x.image?.square?.url,
+          content: x.content
         };
         set((prev: any) => [...prev, block]);
       });
@@ -45,7 +48,7 @@ export function getChannelContents(arena: any, channel: any, set: any) {
 }
 
 function createBlockInChannel(channel: any, values: any) {
-  console.log("hello", channel.toChannel, values.submittedURL);
+  //console.log("hello", channel.toChannel, values.submittedURL);
 
   //are.na API is deprecated actually need obj : {source: x, content: y} as values
   const obj = {
@@ -55,7 +58,7 @@ function createBlockInChannel(channel: any, values: any) {
   arena.block().create(channel.toChannel, obj);
 }
 
-function UploadView(channel: string) {
+function UploadView(channel: any) {
   return (
     <Form
       navigationTitle="Upload"
@@ -95,7 +98,7 @@ export default function GetChannelContents() {
   return (
     <Grid columns={3} fit={Grid.Fit.Fill} isLoading={isLoading}>
       <Grid.Item
-        content="+"
+        content={{value: { source: Icon.PlusCircle}, tooltip: "Add block"}}
         title="Add block"
         subtitle="URL, Text"
         actions={
@@ -107,7 +110,7 @@ export default function GetChannelContents() {
       {items.map(({ id, name, title, image }: any) => (
         <Grid.Item
           key={id}
-          content={{ tooltip: title, value: { source: image } }}
+          content={{ tooltip: title, value: { source: image ?? Icon.Text  } }}
           subtitle={name}
           actions={
             <ActionPanel>
