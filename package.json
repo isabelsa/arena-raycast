@@ -15,6 +15,12 @@
       "title": "Browse channel",
       "description": "Browsing a hardcoded are.na channel",
       "mode": "view"
+    },
+    {
+      "name": "searchArena",
+      "title": "Search Are.na",
+      "description": "Search for channels, blocks on are.na",
+      "mode": "view"
     }
   ],
   "preferences": [

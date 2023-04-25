@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 import { Form, ActionPanel, Action, Grid, Detail, Icon, getPreferenceValues } from "@raycast/api";
+import {getIcon} from "./util"
 
 const preferences = getPreferenceValues();
 const Arena = require("are.na");
 const arena = new Arena({ accessToken: preferences.token });
+
+const generateSVG = (text: string) => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.5895 16.0032L5.98291 7.39664L7.39712 5.98242L16.0037 14.589V7.00324H18.0037V18.0032H7.00373V16.0032H14.5895Z"></path></svg>
+  )
+}
 
 const createBlockMarkdown = (title: any, image: any) => {
   return `![Illustration](${image})`;
@@ -110,7 +117,7 @@ export default function GetChannelContents() {
       {items.map(({ id, name, title, image }: any) => (
         <Grid.Item
           key={id}
-          content={{ tooltip: title, value: { source: image ?? Icon.Text  } }}
+          content={{ tooltip: title, value: image ?? getIcon(title) }}
           subtitle={name}
           actions={
             <ActionPanel>
