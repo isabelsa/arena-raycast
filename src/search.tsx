@@ -1,49 +1,20 @@
-import { useState, useEffect } from "react";
-import { List, Grid, Icon, Image, getPreferenceValues } from "@raycast/api";
+import { Action, ActionPanel, List, getPreferenceValues } from "@raycast/api";
 import { getIcon, getAccessories } from "./util";
+import { search } from "./data";
+import { State } from "./types";
+import { useState, useEffect } from "react";
+
+import Channel from "./channel";
 
 const preferences = getPreferenceValues();
 const Arena = require("are.na");
 const arena = new Arena({ accessToken: preferences.token });
 
-interface Channel {
-  index: string;
-  title: string;
-  user: string;
-  length: number;
-  updated: string;
-  follower_count: string;
-}
-
-interface State {
-  searchText: string;
-  items: Channel[];
-}
-
-function search(state: State, setState: any) {
-  arena
-    .search(state.searchText)
-    .channels()
-    .then((channels: any) => {
-      channels.map((chan: any) => {
-        const channel = {
-          index: chan.id,
-          title: chan.title,
-          user: chan.user.full_name,
-          length: chan.length,
-          updated: chan.updated_at,
-        };
-
-        setState((prev) => ({ ...prev, items: [...channels] }));
-      });
-    });
-}
-
 export default function SearchArena() {
   const [state, setState] = useState<State>({ searchText: "", items: [] });
 
   useEffect(() => {
-    search(state, setState);
+    search(arena, state, setState);
   }, [state.searchText]);
 
   console.log(state);
@@ -63,6 +34,11 @@ export default function SearchArena() {
             key={index}
             title={item.title}
             accessories={getAccessories(item.length.toString(), item.follower_count.toString())}
+            actions={
+              <ActionPanel>
+                <Action.Push title="View Detail" target={<Channel id={item.slug} />}></Action.Push>
+              </ActionPanel>
+            }
           />
         ))
       )}

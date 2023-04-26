@@ -1,33 +1,41 @@
-type Block = {
-  id: string
-  name: string
-  title?: string
-  source: {
-      title: string
-    }
-  image: {
-    square: {
-      url: string
-    }
-  }
+import { Block, State } from "./types";
+
+export function search(arena: any, state: State, setState: any) {
+  arena
+    .search(state.searchText)
+    .channels()
+    .then((channels: any) => {
+      channels.map((chan: any) => {
+        const channel = {
+          index: chan.id,
+          title: chan.title,
+          user: chan.user.full_name,
+          length: chan.length,
+          updated: chan.updated_at,
+        };
+
+        setState((prev: any) => ({ ...prev, items: [...channels] }));
+      });
+    });
 }
 
-export function getUserChannels(arena: any, userId: any){
+export function getChannelContents(arena: any, channel: any, set: any) {
   arena
-  .user(userId)
-  .channels()
-  .then((channels : any) => {
-    channels.map((x : any) => {
-      
-      const channel = {
-        title: x.title,
-        user: x.user.full_name,
-        status: x.status,
-        updated: x.updated_at
-      } 
+    .channel(channel)
+    .contents()
+    .then((blocks: Block[]) => {
+      blocks.map((x: Block) => {
+        console.log("Block ->", x);
 
-      // console.log(channel)
+        const block = {
+          id: x.id,
+          name: x.title,
+          title: x.source?.title || x.content || x.generated_title,
+          image: x.image?.square?.url,
+          content: x.content,
+        };
+        set((prev: any) => [...prev, block]);
+      });
     })
-  })
-  .catch("EHHHHHHH", console.error);
+    .catch((err: any) => console.log(err));
 }

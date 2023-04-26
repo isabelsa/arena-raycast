@@ -11,15 +11,9 @@
   "license": "MIT",
   "commands": [
     {
-      "name": "getChannelContents",
-      "title": "Browse a specific channel",
-      "description": "Browsing a hardcoded are.na channel",
-      "mode": "view"
-    },
-    {
-      "name": "searchArena",
+      "name": "search",
       "title": "Search Are.na channels",
-      "description": "Search for channels, blocks on are.na",
+      "description": "Search for channels on are.na",
       "mode": "view"
     }
   ],
