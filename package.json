@@ -12,13 +12,13 @@
   "commands": [
     {
       "name": "getChannelContents",
-      "title": "Browse channel",
+      "title": "Browse a specific channel",
       "description": "Browsing a hardcoded are.na channel",
       "mode": "view"
     },
     {
       "name": "searchArena",
-      "title": "Search Are.na",
+      "title": "Search Are.na channels",
       "description": "Search for channels, blocks on are.na",
       "mode": "view"
     }
