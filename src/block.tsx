@@ -1,18 +1,9 @@
 import { Detail, Form, ActionPanel, Action, Icon } from "@raycast/api";
 
+// View block detail
 export const createBlockMarkdown = (image: any) => {
   return `![Illustration](${image})`;
 };
-
-function createBlockInChannel(arena: any, channel: any, values: any) {
-  //console.log("hello", channel.toChannel, values.submittedURL);
-  //are.na API is deprecated actually need obj : {source: x, content: y} as values
-  const obj = {
-    source: channel.toChannel,
-    content: values.submittedURL,
-  };
-  arena.block().create(channel.toChannel, obj);
-}
 
 export function DetailView(name: any, image: any) {
   return (
@@ -30,6 +21,18 @@ export function DetailView(name: any, image: any) {
       }
     />
   );
+}
+
+// Create block
+
+function createBlockInChannel(arena: any, channel: any, values: any) {
+  //console.log("hello", channel.toChannel, values.submittedURL);
+  //are.na API is deprecated actually need obj : {source: x, content: y} as values
+  const obj = {
+    source: channel.toChannel,
+    content: values.submittedURL,
+  };
+  arena.block().create(channel.toChannel, obj);
 }
 
 export function UploadView(arena: any, channel: any) {

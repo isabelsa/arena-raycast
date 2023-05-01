@@ -1,6 +1,8 @@
 import { Block, State } from "./types";
 
-export function search(arena: any, state: State, setState: any) {
+export function search(arena: any, state: State, setState: any, setIsLoading: any) {
+  setIsLoading(true);
+
   arena
     .search(state.searchText)
     .channels()
@@ -16,10 +18,12 @@ export function search(arena: any, state: State, setState: any) {
 
         setState((prev: any) => ({ ...prev, items: [...channels] }));
       });
-    });
+    })
+    .then(() => setIsLoading(false))
+    .catch((err: any) => console.log(err));
 }
 
-export function getChannelContents(arena: any, channel: any, set: any) {
+export function getChannelContents(arena: any, channel: any, set: any, setIsLoading: any) {
   arena
     .channel(channel)
     .contents()
@@ -34,8 +38,10 @@ export function getChannelContents(arena: any, channel: any, set: any) {
           image: x.image?.square?.url,
           content: x.content,
         };
+
         set((prev: any) => [...prev, block]);
       });
     })
+    .then(() => setIsLoading(false))
     .catch((err: any) => console.log(err));
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { ActionPanel, Action, Grid, Detail, Icon, getPreferenceValues } from "@raycast/api";
-import { getIcon } from "./util";
+import { ActionPanel, Action, Grid, Icon, getPreferenceValues } from "@raycast/api";
+import { generateThumbnail } from "./util";
 import { Slug } from "./types";
 
 import { getChannelContents } from "./data";
@@ -13,34 +13,29 @@ const preferences = getPreferenceValues();
 const arena = new Arena({ accessToken: preferences.token });
 
 export default function Channel(slug: Slug) {
-  const [channel] = useState(slug.id);
+  const [channel] = useState<string>(slug.id);
   const [items, setItems] = useState<string[]>([]);
-  const [isLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getChannelContents(arena, channel, setItems);
+    getChannelContents(arena, channel, setItems, setIsLoading);
   }, []);
 
   return (
     <Grid columns={3} fit={Grid.Fit.Fill} isLoading={isLoading}>
-      <Grid.Item
-        content={{ value: { source: Icon.PlusCircle }, tooltip: "Add block" }}
-        title="Add block"
-        subtitle="URL, Text"
-        actions={
-          <ActionPanel>
-            <Action.Push title="Add block" target={<UploadView arena={arena} toChannel={channel} />} />
-          </ActionPanel>
-        }
-      />
       {items.map(({ id, name, title, image }: any) => (
         <Grid.Item
           key={id}
-          content={{ tooltip: title, value: image ?? getIcon(title) }}
+          content={{ tooltip: title, value: image ?? generateThumbnail(title) }}
           subtitle={name}
           actions={
             <ActionPanel>
-              <Action.Push title="View Detail" target={<DetailView name={name} image={image} />}></Action.Push>
+              <Action.Push title="View metadata" target={<DetailView name={name} image={image} />}></Action.Push>
+              <Action.Push
+                icon={Icon.PlusCircle}
+                title="Add block"
+                target={<UploadView arena={arena} toChannel={channel} />}
+              />
               <Action.CopyToClipboard content={image} />
               <Action.OpenInBrowser title="Open in Browser" url={image} />
             </ActionPanel>
