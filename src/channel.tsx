@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ActionPanel, Action, Grid, Icon, getPreferenceValues } from "@raycast/api";
+import { ActionPanel, Action, Grid, Icon, getPreferenceValues, useNavigation } from "@raycast/api";
 import { generateThumbnail } from "./util";
 import { Slug } from "./types";
 
@@ -17,27 +17,30 @@ export default function Channel(slug: Slug) {
   const [items, setItems] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const { pop } = useNavigation();
+
   useEffect(() => {
     getChannelContents(arena, channel, setItems, setIsLoading);
+    
   }, []);
 
   return (
     <Grid columns={3} fit={Grid.Fit.Fill} isLoading={isLoading}>
-      {items.map(({ id, name, title, image }: any) => (
+      {items.map((i: any) => (
         <Grid.Item
-          key={id}
-          content={{ tooltip: title, value: image ?? generateThumbnail(title) }}
-          subtitle={name}
+          key={i.id}
+          content={{ tooltip: i.title, value: i.image ?? generateThumbnail(i.title) }}
+          subtitle={i.name}
           actions={
             <ActionPanel>
-              <Action.Push title="View metadata" target={<DetailView name={name} image={image} />}></Action.Push>
+              <Action.Push title="View metadata" target={<DetailView name={i.name} image={i.image} moreInfo={i}/>}></Action.Push>
               <Action.Push
                 icon={Icon.PlusCircle}
                 title="Add block"
-                target={<UploadView arena={arena} toChannel={channel} />}
+                target={<UploadView arena={arena} channel={channel} pop={pop} />}
               />
-              <Action.CopyToClipboard content={image} />
-              <Action.OpenInBrowser title="Open in Browser" url={image} />
+              <Action.CopyToClipboard content={i.image} />
+              <Action.OpenInBrowser title="Open in Browser" url={i.image} />
             </ActionPanel>
           }
         />

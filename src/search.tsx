@@ -18,7 +18,7 @@ export default function SearchArena() {
     search(arena, state, setState, setIsLoading);
   }, [state.searchText]);
 
-  console.log(state);
+  // console.log(state);
 
   return (
     <List

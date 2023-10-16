@@ -37,6 +37,11 @@ export function getChannelContents(arena: any, channel: any, set: any, setIsLoad
           title: x.source?.title || x.content || x.generated_title,
           image: x.image?.square?.url,
           content: x.content,
+          createdAt: x.created_at,
+          commentCount: x.commentCount,
+          description: x.description,
+          source: x.source?.url  
+
         };
 
         set((prev: any) => [...prev, block]);

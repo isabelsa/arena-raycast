@@ -4,8 +4,12 @@ export type Block = {
   title: string;
   generated_title: string;
   content: string;
+  created_at: string;
+  commentCount: string;
+  description: string;
   source?: {
     title: string;
+    url: string;
   };
   image: {
     square?: {
