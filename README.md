@@ -3,7 +3,7 @@
 An unfinished draft for a @raycast extension. If there's anything worthwhile here, in between all the spaghetti code, feel free to use it.
 
 - API docs from Are.na are sometimes outdated, browsing through discord helps a ton
-- Image upload without URL needs to spin it's own s3 image upload
+- Image upload without URL needs to spin it's own s3 image upload, https://github.com/tttimur/s3-arena/tree/master could be a good reference
 - Are.na js wrapper is great
 - There are several types of blocks, for text blocks to render similar to are.na and circunvemnt raycast's "UI" the idea was to generate an SVG with the text inside
 
