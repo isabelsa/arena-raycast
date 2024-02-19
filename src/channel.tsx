@@ -33,14 +33,13 @@ export default function Channel(slug: Slug) {
           subtitle={i.name}
           actions={
             <ActionPanel>
-              <Action.Push title="View metadata" target={<DetailView name={i.name} image={i.image} moreInfo={i}/>}></Action.Push>
+              <Action.Push title="View detail" target={<DetailView name={i.name} image={i.image} moreInfo={i}/>}></Action.Push>
               <Action.Push
                 icon={Icon.PlusCircle}
-                title="Add block"
+                title="Add block to channel"
                 target={<UploadView arena={arena} channel={channel} pop={pop} />}
               />
               <Action.CopyToClipboard content={i.image} />
-              <Action.OpenInBrowser title="Open in Browser" url={i.image} />
             </ActionPanel>
           }
         />

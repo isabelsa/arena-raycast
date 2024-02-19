@@ -1,6 +1,8 @@
 import { Block, State } from "./types";
 
-export function search(arena: any, state: State, setState: any, setIsLoading: any) {
+
+// Search functions
+export function searchAllChannels(arena: any, state: State, setState: any, setIsLoading: any) {
   setIsLoading(true);
 
   arena
@@ -23,13 +25,39 @@ export function search(arena: any, state: State, setState: any, setIsLoading: an
     .catch((err: any) => console.log(err));
 }
 
+export function searchOwnChannels(arena: any, state: State, setState: any, setIsLoading: any) {
+  setIsLoading(true);
+
+  arena
+  .user("citizen-citizen")
+  .channels()
+  .then((channels: any) => {
+    channels.map((ch: any) => {
+      const channel = {
+        index: ch.id,
+        title: ch.title,
+        user: ch.user.full_name,
+        length: ch.length,
+        updated: ch.updated_at,
+      };
+
+      setState((prev: any) => ({ ...prev, items: [...channels] }));
+    });
+  })
+  .then(() => setIsLoading(false))
+  .catch((err: any) => console.log(err));
+
+}
+
+
+//Channel functions
 export function getChannelContents(arena: any, channel: any, set: any, setIsLoading: any) {
   arena
     .channel(channel)
     .contents()
     .then((blocks: Block[]) => {
       blocks.map((x: Block) => {
-        console.log("Block ->", x);
+        //console.log("Block ->", x);
 
         const block = {
           id: x.id,

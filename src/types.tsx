@@ -27,9 +27,10 @@ export type Channel = {
   title: string;
   user: string;
   length: number;
-  updated: string;
+  updated_at: string;
   follower_count: string;
   slug: string;
+  open: boolean;
 };
 
 export type State = {

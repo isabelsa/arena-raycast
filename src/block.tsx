@@ -1,4 +1,5 @@
 import { Detail, Form, ActionPanel, Action, Icon } from "@raycast/api";
+import { prettifyDate } from "./util";
 
 // View block detail
 export const createBlockMarkdown = (image: any) => {
@@ -10,7 +11,6 @@ export const createBlockMarkdown = (image: any) => {
 // comment_count
 
 export function DetailView({name, image, moreInfo }: any) {
-  console.log("HERE", moreInfo )
   return (
     <Detail
       markdown={createBlockMarkdown(image)}
@@ -18,10 +18,10 @@ export function DetailView({name, image, moreInfo }: any) {
         <Detail.Metadata>
           <Detail.Metadata.Link title="Name" target={moreInfo.source} text={name} />
           <Detail.Metadata.Label title="Description" text={moreInfo.description} />
-          <Detail.Metadata.Label title="Created At" text={moreInfo.createdAt} />
+          <Detail.Metadata.Label title="Created At" text={prettifyDate(moreInfo.createdAt)} />
           <Detail.Metadata.Separator />
           <Detail.Metadata.TagList title="Statistics">
-            <Detail.Metadata.TagList.Item text={`💬 Comment count 0`} color={name} />
+            <Detail.Metadata.TagList.Item text={`💬 Comment count`} color={name} />
           </Detail.Metadata.TagList>
         </Detail.Metadata>
       }
