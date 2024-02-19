@@ -14,6 +14,8 @@ const arena = new Arena({ accessToken: preferences.token });
 export default function SearchOwnChannels() {
   const [state, setState] = useState<State>({ searchText: "", items: [] });
   const [isLoading, setIsLoading] = useState(true);
+  
+  console.log("TEstinG", arena)
 
   useEffect(() => {
     searchOwnChannels(arena, state, setState, setIsLoading);
@@ -31,7 +33,7 @@ export default function SearchOwnChannels() {
       ) : (
         state.items.map((item, index) => (
           <List.Item
-            icon={generateIcon(item.title, item.open)}
+            icon={generateIcon(item.title, item.open, item.status)}
             key={index}
             title={item.title}
             accessories={getAccessories(item.updated_at, item.length.toString(),)}

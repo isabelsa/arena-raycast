@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { ActionPanel, Action, Grid, Icon, getPreferenceValues, useNavigation } from "@raycast/api";
-import { generateThumbnail } from "./util";
+import { generateThumbnail, createURL } from "./util";
 import { Slug } from "./types";
 
 import { getChannelContents } from "./data";
 import { UploadView } from "./block";
-import { DetailView } from "./block";
 
 // Initialize are.na JS wrapper
 const Arena = require("are.na");
@@ -33,7 +32,7 @@ export default function Channel(slug: Slug) {
           subtitle={i.name}
           actions={
             <ActionPanel>
-              <Action.Push title="View detail" target={<DetailView name={i.name} image={i.image} moreInfo={i}/>}></Action.Push>
+              <Action.OpenInBrowser title="Open in Are.na" url={createURL(i.id)} ></Action.OpenInBrowser>
               <Action.Push
                 icon={Icon.PlusCircle}
                 title="Add block to channel"

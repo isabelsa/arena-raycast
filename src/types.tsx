@@ -30,7 +30,8 @@ export type Channel = {
   updated_at: string;
   follower_count: string;
   slug: string;
-  open: boolean;
+  open: string;
+  status: string;
 };
 
 export type State = {
