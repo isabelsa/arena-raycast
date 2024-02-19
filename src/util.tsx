@@ -122,10 +122,16 @@ export function prettifyDate(date: string): string{
   return capitalizeFirstLetter(formatDistance(new Date(), new Date(date)))
 }
 
-export function createURL(slug: string): string{
-  const URL = "https://are.na/block/"
-  const NEWURL = URL + slug
+export function createURL(urlType: string, slug: string, userId?: string){
+  const BASE_URL = "https://are.na/"
+  const BLOCK = "block"
 
-  return NEWURL
+  const types = {
+    "block": BASE_URL + BLOCK + `/` +  slug,
+    "channel": BASE_URL + userId + `/` + slug,
+  }
+
+  return types[urlType]
 }
+
 

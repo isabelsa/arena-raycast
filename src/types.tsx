@@ -23,9 +23,12 @@ export type Slug = {
 };
 
 export type Channel = {
+  id: string;
   index: string;
   title: string;
-  user: string;
+  user: {
+    slug: string;
+  }
   length: number;
   updated_at: string;
   follower_count: string;
@@ -38,3 +41,5 @@ export type State = {
   searchText: string;
   items: Channel[];
 };
+
+

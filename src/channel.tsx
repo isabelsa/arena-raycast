@@ -21,6 +21,7 @@ export default function Channel(slug: Slug) {
   useEffect(() => {
     getChannelContents(arena, channel, setItems, setIsLoading);
     
+    console.log("RUNNNING BLOCKS IN CHANNEL")
   }, []);
 
   return (
@@ -32,7 +33,7 @@ export default function Channel(slug: Slug) {
           subtitle={i.name}
           actions={
             <ActionPanel>
-              <Action.OpenInBrowser title="Open in Are.na" url={createURL(i.id)} ></Action.OpenInBrowser>
+              <Action.OpenInBrowser title="Open in Are.na" url={createURL("block", i.id)} ></Action.OpenInBrowser>
               <Action.Push
                 icon={Icon.PlusCircle}
                 title="Add block to channel"
