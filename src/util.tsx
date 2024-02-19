@@ -118,17 +118,19 @@ export function capitalizeFirstLetter(string: string) {
   return string[0].toUpperCase() + string.slice(1);
 }
 
+
+
 export function prettifyDate(date: string): string{
   return capitalizeFirstLetter(formatDistance(new Date(), new Date(date)))
 }
 
-export function createURL(urlType: string, slug: string, userId?: string){
+export function createURL(urlType: "block" | "channel", slug: string, userId?: string) : string{
   const BASE_URL = "https://are.na/"
   const BLOCK = "block"
 
-  const types = {
-    "block": BASE_URL + BLOCK + `/` +  slug,
-    "channel": BASE_URL + userId + `/` + slug,
+  const types : { [key: string]: string } = {
+    "block": `${BASE_URL + BLOCK + `/` +  slug}`,
+    "channel": `${BASE_URL + userId + `/` + slug}`
   }
 
   return types[urlType]
