@@ -118,8 +118,6 @@ export function capitalizeFirstLetter(string: string) {
   return string[0].toUpperCase() + string.slice(1);
 }
 
-
-
 export function prettifyDate(date: string): string{
   return capitalizeFirstLetter(formatDistance(new Date(), new Date(date)))
 }

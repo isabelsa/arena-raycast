@@ -1,7 +1,5 @@
 import { Form, ActionPanel, Action, Icon } from "@raycast/api";
 
-
-// Create block
 function createBlockInChannel(arena: any, channel: any, values: any) {
   const obj = {
     source: channel,
@@ -11,7 +9,7 @@ function createBlockInChannel(arena: any, channel: any, values: any) {
   arena.block().create(channel, obj)
 }
 
-export function UploadView({arena, channel, pop, addBlock, setAddBlock}: any) {
+export function UploadView({arena, channel, pop}: any) {
 
   return (
     <Form
@@ -24,7 +22,6 @@ export function UploadView({arena, channel, pop, addBlock, setAddBlock}: any) {
             onSubmit={(values: any) => {
               createBlockInChannel(arena, channel, values),
               pop()
-              
             }}
             icon={Icon.Upload}
           />

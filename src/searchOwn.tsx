@@ -18,7 +18,6 @@ export default function SearchOwnChannels() {
   useEffect(() => {
     getOwnChannels(arena, state, setState, setIsLoading);
 
-    console.log("RUNNNING CHANNEL")
   }, [state.searchText]);
 
   return (
@@ -29,7 +28,7 @@ export default function SearchOwnChannels() {
       onSearchTextChange={(newValue) => setState((prev) => ({ ...prev, searchText: newValue }))}
     >
       {state.searchText === "" && state.items.length === 0 ? (
-        <List.EmptyView title="Type something to get started" />
+        <List.EmptyView />
       ) : (
         state.items.map((item, index) => (
           <List.Item

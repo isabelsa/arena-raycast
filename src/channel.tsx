@@ -20,13 +20,14 @@ export default function Channel(slug: Slug) {
 
   useEffect(() => {
     getChannelContents(arena, channel, setItems, setIsLoading);
-    
-    console.log("RUNNNING BLOCKS IN CHANNEL")
   }, []);
 
   return (
     <Grid columns={3} fit={Grid.Fit.Fill} isLoading={isLoading}>
-      {items.map((i: any) => (
+      {items.length === 0 ? (
+      <Grid.EmptyView icon={Icon.Binoculars} title="No blocks in this channel" />
+      ) : (
+        items.map((i: any) => (
         <Grid.Item
           key={i.id}
           content={{ tooltip: i.title, value: i.image ?? generateThumbnail(i.title) }}
@@ -40,10 +41,10 @@ export default function Channel(slug: Slug) {
                 target={<UploadView arena={arena} channel={channel} pop={pop} />}
               />
               <Action.CopyToClipboard content={i.image} />
-            </ActionPanel>
-          }
-        />
-      ))}
+            </ActionPanel>}
+          />
+          ))
+      )}
     </Grid>
   );
 }
