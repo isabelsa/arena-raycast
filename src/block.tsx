@@ -1,35 +1,4 @@
-import { Detail, Form, ActionPanel, Action, Icon } from "@raycast/api";
-
-// View block detail
-export const createBlockMarkdown = (image: any) => {
-  return `![Illustration](${image})`;
-};
-
-// created_at
-// description: '',
-// comment_count
-
-export function DetailView({name, image, moreInfo }: any) {
-  console.log("HERE", moreInfo )
-  return (
-    <Detail
-      markdown={createBlockMarkdown(image)}
-      metadata={
-        <Detail.Metadata>
-          <Detail.Metadata.Link title="Name" target={moreInfo.source} text={name} />
-          <Detail.Metadata.Label title="Description" text={moreInfo.description} />
-          <Detail.Metadata.Label title="Created At" text={moreInfo.createdAt} />
-          <Detail.Metadata.Separator />
-          <Detail.Metadata.TagList title="Statistics">
-            <Detail.Metadata.TagList.Item text={`💬 Comment count 0`} color={name} />
-          </Detail.Metadata.TagList>
-        </Detail.Metadata>
-      }
-    />
-  );
-}
-
-// Create block
+import { Form, ActionPanel, Action, Icon } from "@raycast/api";
 
 function createBlockInChannel(arena: any, channel: any, values: any) {
   const obj = {
@@ -40,7 +9,7 @@ function createBlockInChannel(arena: any, channel: any, values: any) {
   arena.block().create(channel, obj)
 }
 
-export function UploadView({arena, channel, pop, addBlock, setAddBlock}: any) {
+export function UploadView({arena, channel, pop}: any) {
 
   return (
     <Form
@@ -53,7 +22,6 @@ export function UploadView({arena, channel, pop, addBlock, setAddBlock}: any) {
             onSubmit={(values: any) => {
               createBlockInChannel(arena, channel, values),
               pop()
-              
             }}
             icon={Icon.Upload}
           />

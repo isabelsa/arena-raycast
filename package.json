@@ -11,9 +11,9 @@
   "license": "MIT",
   "commands": [
     {
-      "name": "search",
-      "title": "Search Are.na channels",
-      "description": "Search for channels on are.na",
+      "name": "searchOwn",
+      "title": "Browse your Are.na channels",
+      "description": "Browse your channels Are.na",
       "mode": "view"
     }
   ],
@@ -30,7 +30,8 @@
   ],
   "dependencies": {
     "@raycast/api": "^1.47.3",
-    "are.na": "^0.1.5",
+    "are.na": "github:isabelsa/arena-js",
+    "date-fns": "^3.3.1",
     "node-fetch": "^3.3.0",
     "rss-parser": "^3.12.0"
   },

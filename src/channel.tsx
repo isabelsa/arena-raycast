@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { ActionPanel, Action, Grid, Icon, getPreferenceValues, useNavigation } from "@raycast/api";
-import { generateThumbnail } from "./util";
+import { generateThumbnail, createURL } from "./util";
 import { Slug } from "./types";
 
 import { getChannelContents } from "./data";
 import { UploadView } from "./block";
-import { DetailView } from "./block";
 
 // Initialize are.na JS wrapper
 const Arena = require("are.na");
@@ -21,30 +20,31 @@ export default function Channel(slug: Slug) {
 
   useEffect(() => {
     getChannelContents(arena, channel, setItems, setIsLoading);
-    
   }, []);
 
   return (
     <Grid columns={3} fit={Grid.Fit.Fill} isLoading={isLoading}>
-      {items.map((i: any) => (
+      {items.length === 0 ? (
+      <Grid.EmptyView icon={Icon.Binoculars} title="No blocks in this channel" />
+      ) : (
+        items.map((i: any) => (
         <Grid.Item
           key={i.id}
           content={{ tooltip: i.title, value: i.image ?? generateThumbnail(i.title) }}
           subtitle={i.name}
           actions={
             <ActionPanel>
-              <Action.Push title="View metadata" target={<DetailView name={i.name} image={i.image} moreInfo={i}/>}></Action.Push>
+              <Action.OpenInBrowser title="Open in Are.na" url={createURL("block", i.id)} ></Action.OpenInBrowser>
               <Action.Push
                 icon={Icon.PlusCircle}
-                title="Add block"
+                title="Add block to channel"
                 target={<UploadView arena={arena} channel={channel} pop={pop} />}
               />
               <Action.CopyToClipboard content={i.image} />
-              <Action.OpenInBrowser title="Open in Browser" url={i.image} />
-            </ActionPanel>
-          }
-        />
-      ))}
+            </ActionPanel>}
+          />
+          ))
+      )}
     </Grid>
   );
 }

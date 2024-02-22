@@ -1,6 +1,6 @@
 import { Action, ActionPanel, List, getPreferenceValues } from "@raycast/api";
-import { generateIcon, getAccessories } from "./util";
-import { search } from "./data";
+import { generateIcon, getAccessories, createURL } from "./util";
+import { getOwnChannels } from "./data";
 import { State } from "./types";
 import { useState, useEffect } from "react";
 
@@ -10,35 +10,36 @@ const preferences = getPreferenceValues();
 const Arena = require("are.na");
 const arena = new Arena({ accessToken: preferences.token });
 
-export default function SearchArena() {
+
+export default function SearchOwnChannels() {
   const [state, setState] = useState<State>({ searchText: "", items: [] });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    search(arena, state, setState, setIsLoading);
-  }, [state.searchText]);
+    getOwnChannels(arena, state, setState, setIsLoading);
 
-  // console.log(state);
+  }, [state.searchText]);
 
   return (
     <List
       isLoading={isLoading}
       navigationTitle="Search for channels"
       searchBarPlaceholder="Search for channels "
-      onSearchTextChange={(newValue) => setState((previous) => ({ ...previous, searchText: newValue }))}
+      onSearchTextChange={(newValue) => setState((prev) => ({ ...prev, searchText: newValue }))}
     >
       {state.searchText === "" && state.items.length === 0 ? (
-        <List.EmptyView title="Type something to get started" />
+        <List.EmptyView />
       ) : (
         state.items.map((item, index) => (
           <List.Item
-            icon={generateIcon(1)}
+            icon={generateIcon(item.title, item.open, item.status)}
             key={index}
             title={item.title}
-            accessories={getAccessories(item.length.toString(), item.follower_count.toString())}
+            accessories={getAccessories(item.updated_at, item.length.toString())}
             actions={
               <ActionPanel>
-                <Action.Push title="View Detail" target={<Channel id={item.slug} />}></Action.Push>
+                <Action.Push title="View channel details" target={<Channel id={item.slug} />}></Action.Push>
+                <Action.OpenInBrowser title="Open in Are.na" url={createURL("channel", item.slug, item.user.slug)} ></Action.OpenInBrowser>
               </ActionPanel>
             }
           />
