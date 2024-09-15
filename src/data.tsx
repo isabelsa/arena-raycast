@@ -1,24 +1,4 @@
-import { Block, State } from "./types";
-
-
-export function getOwnChannels(arena: any, state: State, setState: any, setIsLoading: any) {
-  setIsLoading(true);
-
-  arena.me().get().then((user: any) => {
-    arena
-    .user(user.slug)
-    .channels()
-    .then((channels: any) => {
-      channels.map((ch: any) => {
-      setState((prev: any) => ({ ...prev, items: [...channels] }));
-    });
-
-  })
-  .then(() => setIsLoading(false))
-  .catch((err: any) => console.log(err));
-  });
-}
-
+import { Block } from "./types";
 
 export function getChannelContents(arena: any, channel: any, set: any, setIsLoading: any) {
   arena
@@ -35,8 +15,7 @@ export function getChannelContents(arena: any, channel: any, set: any, setIsLoad
           createdAt: x.created_at,
           commentCount: x.commentCount,
           description: x.description,
-          source: x.source?.url  
-
+          source: x.source?.url,
         };
 
         set((prev: any) => [...prev, block]);

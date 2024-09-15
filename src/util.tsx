@@ -23,7 +23,7 @@ export function generateThumbnail(text: string): Image.ImageLike {
   };
 }
 
-export function generateIcon(text: string, open: string, status: string): Image.ImageLike {
+export function generateIcon(text: string, open: boolean, status: string): Image.ImageLike {
   const truncate = Array.from(text)[0];
   const letter = truncate.toString().toUpperCase();
 
