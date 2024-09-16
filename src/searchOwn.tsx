@@ -4,9 +4,10 @@ import { generateIcon, getAccessories, createURL } from "./util";
 import { useState, useEffect } from "react";
 import { getChannelsForAuthenticatedUser } from "./arena";
 import Channel from "./channel";
+import { getCachedAuthenticatedChannels, setCachedAuthenticatedChannels } from "./cache";
 
 export default function SearchOwnChannels() {
-  const [channels, setChannels] = useState<Arena.Channel[]>([]);
+  const [channels, setChannels] = useState<Arena.Channel[]>(getCachedAuthenticatedChannels());
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
@@ -15,6 +16,7 @@ export default function SearchOwnChannels() {
     try {
       const channels = await getChannelsForAuthenticatedUser();
       setChannels(channels);
+      setCachedAuthenticatedChannels(channels);
     } catch (e) {
       await showToast({
         style: Toast.Style.Failure,
