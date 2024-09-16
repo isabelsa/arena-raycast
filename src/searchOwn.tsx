@@ -1,36 +1,41 @@
-import { Action, ActionPanel, List, getPreferenceValues } from "@raycast/api";
+import type Arena from "are.na";
+import { Action, ActionPanel, List, showToast, Toast } from "@raycast/api";
 import { generateIcon, getAccessories, createURL } from "./util";
-import { getOwnChannels } from "./data";
-import { State } from "./types";
 import { useState, useEffect } from "react";
-
+import { getChannelsForAuthenticatedUser } from "./arena";
 import Channel from "./channel";
 
-const preferences = getPreferenceValues();
-const Arena = require("are.na");
-const arena = new Arena({ accessToken: preferences.token });
-
-
 export default function SearchOwnChannels() {
-  const [state, setState] = useState<State>({ searchText: "", items: [] });
+  const [channels, setChannels] = useState<Arena.Channel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    getOwnChannels(arena, state, setState, setIsLoading);
+  const fetchData = async () => {
+    setIsLoading(true);
 
-  }, [state.searchText]);
+    try {
+      const channels = await getChannelsForAuthenticatedUser();
+      setChannels(channels);
+    } catch (e) {
+      await showToast({
+        style: Toast.Style.Failure,
+        title: "Failed to load channels",
+        message: "An error occurred while loading channels.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
-    <List
-      isLoading={isLoading}
-      navigationTitle="Search for channels"
-      searchBarPlaceholder="Search for channels "
-      onSearchTextChange={(newValue) => setState((prev) => ({ ...prev, searchText: newValue }))}
-    >
-      {state.searchText === "" && state.items.length === 0 ? (
+    <List isLoading={isLoading} navigationTitle="Search for channels" searchBarPlaceholder="Search for channels ">
+      {channels.length === 0 ? (
         <List.EmptyView />
       ) : (
-        state.items.map((item, index) => (
+        channels.map((item, index) => (
           <List.Item
             icon={generateIcon(item.title, item.open, item.status)}
             key={index}
@@ -39,7 +44,10 @@ export default function SearchOwnChannels() {
             actions={
               <ActionPanel>
                 <Action.Push title="View channel details" target={<Channel id={item.slug} />}></Action.Push>
-                <Action.OpenInBrowser title="Open in Are.na" url={createURL("channel", item.slug, item.user.slug)} ></Action.OpenInBrowser>
+                <Action.OpenInBrowser
+                  title="Open in Are.na"
+                  url={createURL("channel", item.slug, item.user.slug)}
+                ></Action.OpenInBrowser>
               </ActionPanel>
             }
           />

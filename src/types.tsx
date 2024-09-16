@@ -21,25 +21,3 @@ export type Block = {
 export type Slug = {
   id: string;
 };
-
-export type Channel = {
-  id: string;
-  index: string;
-  title: string;
-  user: {
-    slug: string;
-  }
-  length: number;
-  updated_at: string;
-  follower_count: string;
-  slug: string;
-  open: string;
-  status: string;
-};
-
-export type State = {
-  searchText: string;
-  items: Channel[];
-};
-
-
